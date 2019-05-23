@@ -1,4 +1,4 @@
-module github.com/iwdmb/kvStore
+module github.com/iwdmb/kvstore-grpc
 
 go 1.12
 

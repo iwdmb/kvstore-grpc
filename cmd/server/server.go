@@ -6,8 +6,8 @@ import (
 	"net"
 	"os"
 
-	"github.com/iwdmb/kvStore/proto"
-	"github.com/iwdmb/kvStore/service"
+	"github.com/iwdmb/kvstore-grpc/proto"
+	"github.com/iwdmb/kvstore-grpc/service"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
@@ -34,9 +34,9 @@ var serverCmd = &cobra.Command{
 }
 
 var (
-	Hostname string
-	Port     string
-	Debug    bool
+	Host  string
+	Port  string
+	Debug bool
 )
 
 func server() {
@@ -58,7 +58,7 @@ func server() {
 	zap.ReplaceGlobals(l)
 
 	// Init gRPC
-	addr := fmt.Sprintf("%s:%s", Hostname, Port)
+	addr := net.JoinHostPort(Host, Port)
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
@@ -89,7 +89,7 @@ func server() {
 func init() {
 	RootCmd.AddCommand(serverCmd)
 	// Here you will define your flags and configuration settings.
-	serverCmd.Flags().StringVarP(&Hostname, "hostname", "n", "127.0.0.1", "Server Hostname")
+	serverCmd.Flags().StringVarP(&Host, "host", "n", "127.0.0.1", "Server Host")
 	serverCmd.Flags().StringVarP(&Port, "port", "p", "7777", "Server Port")
 	serverCmd.Flags().BoolVarP(&Debug, "debug", "d", false, "Start Debug Mode")
 }
