@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/protobuf/timestamp.proto";
+
+message Status {
+	string code = 1;
+	string message = 2;
+	google.protobuf.Timestamp timestamp = 3;
+}
+
+service KVService {
+	rpc Get (GetRequest) returns (GetResponse) {};
+	rpc Set (SetRequest) returns (SetResponse) {};
+	rpc Del (DelRequest) returns (DelResponse) {};
+}
+
+message GetRequest {
+	string key = 1;
+}
+
+message GetResponse {
+	string key = 1;
+	bytes value = 2;
+	Status status = 3;
+}
+
+message SetRequest {
+	string key = 1;
+	bytes value = 2;
+}
+
+message SetResponse {
+	string key = 1;
+	Status status = 2;
+}
+
+message DelRequest {
+	string key = 1;
+}
+
+message DelResponse {
+	string key = 1;
+	string value = 2;
+	Status status = 3;
+}
