@@ -3,6 +3,7 @@ syntax = "proto3";
 package proto;
 
 import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
 
 message Status {
 	string code = 1;
@@ -11,9 +12,21 @@ message Status {
 }
 
 service KVService {
-	rpc Get (GetRequest) returns (GetResponse) {};
-	rpc Set (SetRequest) returns (SetResponse) {};
-	rpc Del (DelRequest) returns (DelResponse) {};
+	rpc Get (GetRequest) returns (GetResponse) {
+		option (google.api.http) = {
+			get: "/v1/kvStore/get"
+		};
+	};
+	rpc Set (SetRequest) returns (SetResponse) {
+		option (google.api.http) = {
+			post: "/v1/kvStore/set"
+		};
+	};
+	rpc Del (DelRequest) returns (DelResponse) {
+		option (google.api.http) = {
+			delete: "/v1/kvStore/delete"
+		};
+	};
 }
 
 message GetRequest {
